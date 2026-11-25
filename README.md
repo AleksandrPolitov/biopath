@@ -20,7 +20,10 @@ cargo build --release          # → target/release/biopath
 ## Usage
 
 ```bash
-biopath index --graph-gfa-in graph.gfa --index-out graph.bpi    # or --graph-gbz-in graph.gbz
+# build the index once per graph (use --graph-gbz-in for a GBZ)
+biopath index --graph-gfa-in graph.gfa --index-out graph.bpi
+
+# answer a file of queries from the index
 biopath query --index-in graph.bpi --query-in q.tsv --query-out out.tsv
 ```
 
@@ -28,12 +31,26 @@ biopath query --index-in graph.bpi --query-in q.tsv --query-out out.tsv
 one or more target positions. `out.tsv` lists each position as `node offset orientation`, followed
 by its distance in bases (`None` if unreachable).
 
-Example with the BRCA2 graph in the repository:
+### Example
+
+With the small BRCA2 graph in the repository:
 
 ```bash
 BIN=./target/release/biopath
-$BIN index --graph-gfa-in tests/golden/graphs/cactus-BRCA2.gfa --index-out brca2.bpi
-printf '1\t+\t0\t100\t+\t5\t1000\t+\t0\n500\t-\t3\t1\t-\t0\n1\t-\t0\t1\t+\t0\n' > q.tsv
+GFA=tests/golden/graphs/cactus-BRCA2.gfa
+
+# 1. build the index
+$BIN index --graph-gfa-in $GFA --index-out brca2.bpi
+
+# 2. write three queries: a source position, then one or more targets
+#    (each position is: node orientation offset; tr turns the spaces into tabs)
+tr -s ' ' '\t' > q.tsv <<'EOF'
+1 + 0     100 + 5    1000 + 0
+500 - 3   1 - 0
+1 - 0     1 + 0
+EOF
+
+# 3. answer them
 $BIN query --index-in brca2.bpi --query-in q.tsv --query-out out.tsv
 cat out.tsv
 ```
@@ -43,6 +60,9 @@ cat out.tsv
 500	3	-	1	0	-	39006
 1	0	-	1	0	+	None
 ```
+
+The first query has two targets, 7,276 and 74,649 bases away. The third is unreachable: no walk
+leads from node `1` read backwards to node `1` read forwards.
 
 `biopath <command> --help` lists all options. [USAGE.md](USAGE.md) is the full reference (input
 requirements, file formats, all subcommands); [ARCHITECTURE.md](ARCHITECTURE.md) explains how the
