@@ -27,16 +27,8 @@ biopath's build time includes reading the GFA; vg's is the `vg index` step alone
 
 ## Install
 
-You need 64-bit Linux, [Rust](https://rustup.rs) 1.96 or newer (`rustup update` if yours is
-older) and a C linker (`cc`, which every Rust build uses).
-
-```bash
-cargo install --locked --git https://github.com/AleksandrPolitov/biopath
-```
-
-This puts the `biopath` binary in `~/.cargo/bin`.
-
-## Build from source
+You need 64-bit Linux, [Rust](https://rustup.rs) installed with rustup, and a C linker (`cc`,
+which every Rust build uses). Build from source:
 
 ```bash
 git clone https://github.com/AleksandrPolitov/biopath
@@ -45,7 +37,9 @@ cargo build --release          # → target/release/biopath
 ```
 
 The repository pins its compiler (Rust 1.96.0, `rust-toolchain.toml`); rustup downloads it on the
-first build.
+first build, whatever Rust you have installed. The result is the single binary
+`target/release/biopath`: run it by that path, or copy it to a directory on your `PATH` to call it
+as `biopath`, as the examples below do.
 
 ## Quick start
 
