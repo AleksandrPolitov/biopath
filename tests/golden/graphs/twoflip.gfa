@@ -1,0 +1,17 @@
+H	VN:Z:1.0
+S	Nz	AA
+S	Nb	AA
+S	Na	AA
+S	Nw	AA
+S	Nx	AA
+S	Np	AAAAA
+S	Nq	AAAAA
+L	Nz	+	Nb	+	0M
+L	Nb	+	Na	+	0M
+L	Na	+	Nw	+	0M
+L	Nz	+	Nx	+	0M
+L	Nx	+	Nw	+	0M
+L	Nw	+	Np	+	0M
+L	Np	+	Nw	-	0M
+L	Nz	-	Nq	+	0M
+L	Nq	+	Nz	+	0M

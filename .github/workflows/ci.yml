@@ -1,0 +1,84 @@
+name: Tests and Lints
+
+on:
+  push:
+  pull_request:
+
+# biopath supports Linux only (the index image uses Linux mmap/madvise), so every job runs on
+# ubuntu-latest with the toolchain pinned in rust-toolchain.toml.
+env:
+  RUSTFLAGS: "-Dwarnings"
+  RUSTDOCFLAGS: "-Dwarnings"
+
+jobs:
+  rust_format:
+    name: Rust format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+
+      - name: cargo fmt
+        run: cargo fmt --all -- --check
+
+  rust_lint:
+    name: Rust lint
+    runs-on: ubuntu-latest
+    needs: ["rust_format"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: clippy
+
+      - name: cargo clippy
+        run: cargo clippy --workspace --all-targets --all-features --locked
+
+  rust_test:
+    name: Rust test
+    runs-on: ubuntu-latest
+    needs: ["rust_format"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: cargo test
+        run: cargo test --workspace --all-features --locked
+
+  rust_doc:
+    name: Rust doc
+    runs-on: ubuntu-latest
+    needs: ["rust_format"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: cargo doc
+        run: cargo doc --workspace --all-features --no-deps --locked
+
+  golden:
+    name: Golden regression check
+    runs-on: ubuntu-latest
+    needs: ["rust_format"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      # The fast profile (release without LTO) writes the same index bytes and answers as release.
+      - name: Build
+        run: cargo build --profile fast --locked
+
+      - name: scripts/golden.sh check
+        run: BIN=target/fast/biopath scripts/golden.sh check

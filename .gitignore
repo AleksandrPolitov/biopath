@@ -1,0 +1,16 @@
+/target
+*.index
+/*.toml
+!/Cargo.toml
+!/rust-toolchain.toml
+/*.json
+*.gz
+*.gzip
+*.query_out
+*.query_out_no_index
+*.log
+/*.gfa
+/*.spqr
+*.out
+*.queries
+graphs/*

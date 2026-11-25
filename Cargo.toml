@@ -1,0 +1,73 @@
+[package]
+name = "biopath"
+description = "Exact shortest-path distances on bidirected pangenome graphs (GFA, GBZ) from an SPQR-tree index."
+authors = [
+    "Aleksandr Politov <aleksandr.politov@helsinki.fi>",
+    "Sebastian Schmidt <sebastian.schmidt@helsinki.fi>",
+]
+license = "MIT"
+repository = "https://github.com/AleksandrPolitov/biopath"
+readme = "README.md"
+keywords = ["bioinformatics", "pangenome", "shortest-path", "spqr-tree", "gfa"]
+categories = ["science::bioinformatics", "command-line-utilities"]
+version = "0.4.0"
+# Not on crates.io: the engine depends on spqr-rust by git revision and on the patched copy of
+# spqr-tree in vendor/ (a `[patch]` that a published crate would lose). Install from the repository.
+publish = false
+
+edition = "2024"
+rust-version = "1.96"
+
+[dependencies]
+# CLI
+clap = { version = "4.6.1", features = ["derive"] }
+log = "0.4.32"
+simplelog = "0.12.2"
+anyhow = "1.0.102"
+indicatif = "0.18.4"
+
+# Data structures
+spqr-shortest-path-index = { path = "engine" }
+bidirected-adjacency-array = "1.1.3"
+spqr-tree = { version = "5.1.0" }
+
+# Serde
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.150"
+toml = "1.1.2"
+
+# Random
+rand = "0.10.1"
+
+# Other
+itertools = "0.15.0"
+flate2 = "1.1.9"
+
+# GBZ input (vg / Giraffe graphs); gbwt serializes with simple-sds-sbwt, imported as simple_sds
+gbwt = "0.3.1"
+simple_sds = { version = "0.3.4", package = "simple-sds-sbwt" }
+
+[workspace]
+members = ["engine"]
+# Vendored third-party code: built as a dependency, not linted or tested with the workspace.
+exclude = ["vendor/spqr-tree"]
+
+[profile.release]
+lto = true
+debug = 1
+
+# The release code without LTO and with incremental builds, for checking a change quickly
+# (`cargo build --profile fast` -> target/fast/biopath, then `BIN=target/fast/biopath
+# scripts/golden.sh check`). Index bytes and answers do not depend on LTO.
+[profile.fast]
+inherits = "release"
+lto = false
+codegen-units = 16
+incremental = true
+debug = 0
+
+# vendor/spqr-tree: an unmodified copy of a fork of spqr-tree 5.1.0 whose builder `assert!`s are
+# demoted to `debug_assert!` (they made building the giant biconnected block O(Σ K²)). Behaviour is
+# identical in release; only the checks are skipped. Applies to biopath and engine alike.
+[patch.crates-io]
+spqr-tree = { path = "vendor/spqr-tree" }

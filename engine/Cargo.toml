@@ -1,0 +1,33 @@
+[package]
+name = "spqr-shortest-path-index"
+description = "The exact shortest-path distance index behind biopath: block-cut and SPQR trees of a bidirected graph, stored as one memory-mappable image."
+version = "2.0.0"
+authors = [
+    "Aleksandr Politov <aleksandr.politov@helsinki.fi>",
+    "Sebastian Schmidt <sebastian.schmidt@helsinki.fi>",
+]
+license = "MIT"
+repository = "https://github.com/AleksandrPolitov/biopath"
+readme = "README.md"
+# A workspace member of biopath, not published on its own (see the root Cargo.toml).
+publish = false
+
+edition = "2024"
+rust-version = "1.96"
+
+[dependencies]
+spqr-tree = { version = "5.0.0", features = ["bidirected-adjacency-array"] }
+# algbio/spqr-rust (MIT), pinned: the in-process SPQR decomposition (src/decomposition.rs).
+spqr-rust = { git = "https://github.com/algbio/spqr-rust", rev = "e285da07890da53f424cb38a1d6ff850707914d3" }
+bidirected-adjacency-array = { version = "1.1.3" }
+optional-numeric-index = "0.4.1"
+num-traits = "0.2.19"
+binary-heap-plus = "0.5.0"
+tagged-vec = "1.1.0"
+bitvec = "1.0.1"
+epoch-reset-array = "0.1.0"
+rayon = "1.10"
+# Linux `mmap`/`madvise`/`malloc_trim` bindings with each architecture's constants (the image arena).
+libc = "0.2"
+# Build and load logging (the `biopath` CLI installs the logger; without one the engine is silent).
+log = "0.4.32"

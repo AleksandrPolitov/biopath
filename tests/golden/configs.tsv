@@ -1,0 +1,10 @@
+# name	env (space-separated KEY=VALUE, or -)	extra `biopath index` flags (or -)
+# `prod` is the production configuration (the defaults: shrink on).
+# The `forced` configs lower every tier threshold so labels, S-node segtrees, projection tables,
+# node rows and the dp pipeline for small blocks all run on the tiny corpus graphs.
+prod	SPQR_SHRINK=1	-
+noshrink	SPQR_SHRINK=0	-
+prod-forced	SPQR_SHRINK=1 SPQR_SNODE_SEGTREE_MIN=4 SPQR_PROJ_TABLE_MIN=4 SPQR_NODE_ROW_MAX_CUTS=2 SPQR_SMALL_BLOCK_MAX=2	--rnode-label-threshold 4
+noshrink-forced	SPQR_SHRINK=0 SPQR_SNODE_SEGTREE_MIN=4 SPQR_PROJ_TABLE_MIN=4 SPQR_NODE_ROW_MAX_CUTS=2 SPQR_SMALL_BLOCK_MAX=2	--rnode-label-threshold 4
+noshrink-forced-prefix	SPQR_SHRINK=0 SPQR_SNODE_SEGTREE_MIN=4 SPQR_PROJ_TABLE_MIN=4 SPQR_NODE_ROW_MAX_CUTS=2 SPQR_SMALL_BLOCK_FAST=0 SPQR_LIFT_BACKEND=prefix	--rnode-label-threshold 4
+noshrink-forced-segtree	SPQR_SHRINK=0 SPQR_SNODE_SEGTREE_MIN=4 SPQR_PROJ_TABLE_MIN=4 SPQR_NODE_ROW_MAX_CUTS=2 SPQR_SMALL_BLOCK_FAST=0 SPQR_LIFT_BACKEND=segtree	--rnode-label-threshold 4

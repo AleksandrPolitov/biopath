@@ -1,0 +1,13 @@
+H	VN:Z:1.0
+S	N0	AA
+S	N1	C
+S	N2	GGG
+S	N3	T
+S	N4	AAAA
+L	N0	+	N1	+	0M
+L	N1	+	N2	+	0M
+L	N0	+	N2	+	0M
+L	N2	+	N3	+	0M
+L	N3	+	N4	+	0M
+L	N2	+	N4	+	0M
+L	N0	+	N4	+	0M

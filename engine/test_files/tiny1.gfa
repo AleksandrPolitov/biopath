@@ -1,0 +1,27 @@
+H	VN:Z:1.0
+S	a	0
+S	b	2
+S	c	4
+S	d	6
+S	e	8
+S	f	10
+S	g	12
+S	h	14
+S	i	16
+S	j	18
+S	k	20
+L	a	+	b	-	0M
+L	b	-	c	-	0M
+L	a	+	c	+	0M
+L	c	+	d	+	0M
+L	d	-	e	-	0M
+L	c	-	e	+	0M
+L	e	+	f	-	0M
+L	f	+	g	+	0M
+L	e	-	g	+	0M
+L	g	+	h	-	0M
+L	h	-	i	-	0M
+L	g	+	i	+	0M
+L	i	+	j	-	0M
+L	j	-	k	+	0M
+L	i	-	k	+	0M

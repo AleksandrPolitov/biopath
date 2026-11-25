@@ -1,0 +1,28 @@
+H	VN:Z:1.0
+S	N0	TT
+S	N1	CC
+S	N2	A
+S	N3	AT
+S	N4	G
+S	N5	CT
+S	N6	G
+S	N7	TG
+S	N8	ACA
+S	N9	ATTC
+L	N0	+	N1	+	0M
+L	N0	-	N2	+	0M
+L	N0	+	N6	+	0M
+L	N0	+	N9	-	0M
+L	N1	+	N2	+	0M
+L	N1	+	N5	+	0M
+L	N2	+	N3	+	0M
+L	N2	+	N4	-	0M
+L	N3	+	N4	+	0M
+L	N4	-	N5	+	0M
+L	N5	+	N6	+	0M
+L	N5	-	N8	-	0M
+L	N5	+	N9	+	0M
+L	N6	-	N7	+	0M
+L	N7	+	N8	-	0M
+L	N7	-	N9	+	0M
+L	N8	-	N9	-	0M

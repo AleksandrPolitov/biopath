@@ -1,0 +1,25 @@
+H v0.4 https://github.com/sebschmi/SPQR-tree-file-format
+
+G G0 Nz Nb Na Nw Nx Np Nq
+
+B B2 G0 Nz Nq
+B B0 G0 Nz Nb Na Nw Nx
+B B1 G0 Nw Np
+
+C Nz B2 B0
+C Nw B0 B1
+
+P P2 B2 Nz Nq
+S S0 B0 Nz Nb Na Nw Nx
+P P3 B0 Nz Nb
+P P1 B1 Nw Np
+
+V V0 S0 P3 Nz Nb
+
+E E6 P2 Nz Nq
+E E0 P3 Nz Nb
+E E1 S0 Nb Na
+E E2 S0 Na Nw
+E E3 S0 Nz Nx
+E E4 S0 Nx Nw
+E E5 P1 Nw Np
